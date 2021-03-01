@@ -20,3 +20,26 @@ Constraints:
 
 k ≥ 0
 [output] array.array.integer */
+
+let arr = [0, -1, 1, -2, 2];
+
+let k = 1;
+
+function findPairsWithGivenDifference(arr, k) {
+  // since x-y = k --> x-k = y ---> create a hash where you calculate the y based off x-k and then store x as the value pair
+  // --> {x-k: x} --> {y:k} ---> once the map is populated ---> loop through the array and check to see if the y key exists --> if so add to results arr
+  let map = {};
+  let res = [];
+
+  for (let x of arr) {
+    map[x - k] = x.toString();
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    let y = arr[i];
+    if (map[y]) res.push([parseInt(map[y]), parseInt(y)]);
+  }
+  return res;
+}
+
+console.log(findPairsWithGivenDifference(arr, k));
