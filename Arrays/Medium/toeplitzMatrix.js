@@ -45,7 +45,8 @@ let arr1 = [
     
 
     */
-
+// using algebra to figure out how to Walk Down the matrix --> checks each num in the first row, as well as each num within the first col ---> combined it combs through all possible diagonals
+/*
 function isToeplitz(arr) {
   let R = arr.length;
   let C = arr[0].length;
@@ -74,6 +75,8 @@ function isToeplitz(arr) {
     }
   }
 
+//   Naive solution still using the min(R-r, C-c) concept
+
   //   for (let i = 0; i < arr.length; i++) {
   //     let row = arr[i];
   //     for (let j = 0; j < row.length; j++) {
@@ -86,8 +89,12 @@ function isToeplitz(arr) {
   //       }
   //     }
   //   }
+
+
+
   return valid;
 }
+*/
 
 let arr2 = [[3], [5], [6]];
 ///true
@@ -99,3 +106,39 @@ let arr3 = [
 ];
 ///true
 console.log(isToeplitz(arr1));
+
+//  Naive Solution not using min(R-r, C-c) ---> somehow figured it out.
+/*
+function isToeplitz(arr) {
+
+    let length = arr.length 
+    let valid = true 
+    
+    for (let i = 0; i<arr.length; i++){
+      //goes through subarrays
+      //i = row#
+      let row = arr[i]
+      
+      for (let j = 0; j<row.length; j++){
+        //take the num --> check subsequent rows at the index and increment the index for each row
+        //j = subArr index
+        let num = row[j]
+        let reps = length - j 
+        let col = 0
+        for (let h = i; h<reps; h++){
+          //row num = h --> check the row for j+1 
+          //subarr = arr[h] 
+         // console.log(h, j, k, j+k)
+          if (!(arr[h][j+col] == num) && !(arr[h][j+col] == null)) {
+            valid = false
+            //console.log('false', arr[h][j+k])
+          }
+          k++
+        }
+      }
+    }
+    return valid
+    
+    
+  }
+  */
