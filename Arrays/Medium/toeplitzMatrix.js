@@ -96,6 +96,9 @@ function isToeplitz(arr) {
 }
 */
 
+//Using a HashMap to solve
+function isToeplitz(arr) {}
+
 let arr2 = [[3], [5], [6]];
 ///true
 
