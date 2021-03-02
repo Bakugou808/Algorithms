@@ -25,7 +25,7 @@ Constraints:
 let arr1 = [
   [1, 2, 3, 4], //need to know the num of rows /length of arr = R, need to know the num or columns / length of sub arr = C
   [5, 1, 2, 3], //if we walk down the rows ---> indices --> (0,0), (1,1), (2,2) || (0,1), (1,2), (2, 3) || (0,2), (1,3) || (0,3)
-  [6, 8, 1, 2],
+  [6, 5, 1, 2],
 ];
 
 //if R = 3, and C = 4 ---> the general indices in the diag will be enumerated by arr[r+k][c+k]
@@ -51,10 +51,26 @@ function isToeplitz(arr) {
   let C = arr[0].length;
   let valid = true;
 
+  //   checks the first row...
   for (let c = 0; c < C - 1; c++) {
+    //isolate each num in first row
     let num = arr[0][c];
-    for (let k = 0; k < Math.min(R, C - c) - 1; k++) {
+    //go to each row, check the value at index c + 1 (aka k) --> if it doesn't equal return false
+    //this only checks for the values within the first array --> what about the other values in the other sub arrays?
+    for (let k = 0; k <= Math.min(R, C - c) - 1; k++) {
       if (arr[k][c + k] != num) return false;
+    }
+  }
+  // checks the first column...
+  for (let r = 0; r < R - 1; r++) {
+    //isolate the first num in each column
+    let num = arr[r][0];
+    //r=1, num = 5
+    //but why only min(R -r, C) ? and not min(R-r, C-c)?
+    for (let k = 0; k <= Math.min(R - r, C) - 1; k++) {
+      //arr[1+0][0] = 5 ---> R-r = 3-1 = 2, C = 4 min = 2 -1 = min = 1
+      //arr[1+]
+      if (arr[r + k][k] != num) return false;
     }
   }
 
