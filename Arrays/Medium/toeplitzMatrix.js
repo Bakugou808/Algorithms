@@ -28,9 +28,9 @@ let arr1 = [
   [6, 5, 1, 2],
 ];
 
-//if R = 3, and C = 4 ---> the general indices in the diag will be enumerated by arr[r+k][c+k]
-// we increment by 1 but how many times?
-// thus k is both the number we increment by, but also represents the num of time we increment the index for both the row and column.
+//*if R = 3, and C = 4 ---> the general indices in the diag will be enumerated by arr[r+k][c+k]
+//* */ we increment by 1 but how many times?
+//* thus k is both the number we increment by, but also represents the num of time we increment the index for both the row and column.
 /* How big is k? Say there are R rows and C columns. Then because (r+k, c+k) must be in bounds,
     0 <= r+k < R and 0 <= c+k < C, so k < min(R-r, C-c) after some algebra.
     0 <= k < R-r  and  0 <= k < C-c --->  so k must be less than the min value between R-r and C-c 
@@ -45,7 +45,7 @@ let arr1 = [
     
 
     */
-// using algebra to figure out how to Walk Down the matrix --> checks each num in the first row, as well as each num within the first col ---> combined it combs through all possible diagonals
+//!! using algebra to figure out how to Walk Down the matrix --> checks each num in the first row, as well as each num within the first col ---> combined it combs through all possible diagonals
 /*
 function isToeplitz(arr) {
   let R = arr.length;
@@ -96,8 +96,41 @@ function isToeplitz(arr) {
 }
 */
 
-//Using a HashMap to solve
-function isToeplitz(arr) {}
+//!!Using a HashMap to solve
+/* 
+if we create a nested loop where we touch every element in every array --> we can store the difference 
+we can create a hashmap that maps the difference in the parent index with the child index
+that value will correlate to a certain num ---> 
+!!because the difference between the row index and column index --> 
+!!--> Elements at position (r, c) are on the same diagonal if and only if they have the 
+!!same “diagonal hash” value of r - c. 
+!!-------> the index of the row minus the index of the column of the number on a diagonal should 
+!! all have the same difference --> if you have a diagonal, every number within the diagonal will have
+!! the same difference of row-index minus col-index. --> using this concept --> you can create a hash map of 
+!!the differences and store the number in the diagonal and check each value to see if their r-c value returns the
+!!correct number. if false --> return false. otherwise after iterating return true. 
+should be the same for every index within a diagonal --> once we map the differences, we can
+store the initial value as it pair ---> then 
+
+1: [[1,2], [2,3], [3,4]],
+  9: [[0,1], [1,2], [2,3], [4,5]],
+*/
+function isToeplitz(arr) {
+  let map = {};
+
+  for (let r = 0; r < arr.length; r++) {
+    let row = arr[r];
+    for (let c = 0; c < row.length; c++) {
+      if (map[r - c]) {
+        if (map[r - c] != arr[r][c]) return false;
+      } else {
+        map[r - c] = arr[r][c];
+      }
+    }
+  }
+  console.log("hurr");
+  return true;
+}
 
 let arr2 = [[3], [5], [6]];
 ///true
@@ -108,9 +141,14 @@ let arr3 = [
   [6, 5],
 ];
 ///true
-console.log(isToeplitz(arr1));
 
-//  Naive Solution not using min(R-r, C-c) ---> somehow figured it out.
+let arr4 = [
+  [1, 2, 3, 4, 5],
+  [3, 2, 1, 4, 5],
+];
+console.log(isToeplitz(arr4));
+
+//!!  Naive Solution not using min(R-r, C-c) ---> somehow figured it out.
 /*
 function isToeplitz(arr) {
 
