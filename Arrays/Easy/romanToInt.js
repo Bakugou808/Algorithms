@@ -83,4 +83,18 @@ const romanToInt = function (string) {
   };
 
   let res = 0;
+
+  for (let i = 0; i < string.length; i++) {
+    let curr = romans[string[i]];
+    let next = romans[string[i + 1]];
+
+    if (curr < next) {
+      res += romans[`${curr}${next}`];
+    } else {
+      res += curr;
+    }
+  }
+  return res;
 };
+
+console.log(romanToInt(string));
