@@ -89,9 +89,13 @@ const romanToInt = function (string) {
     let next = romans[string[i + 1]];
 
     if (curr < next) {
-      res += romans[`${curr}${next}`];
+      console.log(`${string[i]}${string[i + 1]}`);
+      res += romans[`${string[i]}${string[i + 1]}`];
+      i = i + 1;
+      console.log("less than", res);
     } else {
       res += curr;
+      console.log("greater than", res);
     }
   }
   return res;
