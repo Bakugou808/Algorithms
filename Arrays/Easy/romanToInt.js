@@ -101,4 +101,35 @@ const romanToInt = function (string) {
   return res;
 };
 
-console.log(romanToInt(string));
+console.log(romanToInt(string2));
+
+function convertRomanToInt(s) {
+  // MCMXCIV
+  let hash = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+
+  let result = 0;
+
+  for (let i = s.length - 1; i >= 0; i--) {
+    let number = hash[s[i]];
+
+    let compare = hash[s[i - 1]];
+
+    if (number > compare) {
+      result += number - compare;
+      i = i - 1;
+    } else {
+      result += number;
+      //console.log(result)
+    }
+  }
+
+  return result;
+} //end brakcket to function
