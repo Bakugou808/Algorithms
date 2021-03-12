@@ -2,9 +2,6 @@
 13. Roman to Integer
 Easy
 
-286
-
-24
 
 Add to List
 
