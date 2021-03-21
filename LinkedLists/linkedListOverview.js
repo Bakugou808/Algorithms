@@ -114,11 +114,14 @@ class LinkedList {
   append(value) {
     //use while loop to find node with next === null --> reassign
     let nuNode = new Node(value);
-    let current = this.head;
-    while (current.next != null) {
-      current = current.next;
-    }
-    current.next = nuNode;
+    // let current = this.head;
+    // while (current.next != null) {
+    //   current = current.next;
+    // }
+    // current.next = nuNode;
+    //the above works... but we could just target the tail instead of looping to make it O(1) --> duhhh
+    this.tail.next = nuNode;
+    this.count++;
   }
 
   //insert before a given value
@@ -134,6 +137,12 @@ class LinkedList {
     }
     prev.next = nuNode;
     nuNode.next = current;
+    this.count++;
+  }
+
+  replace(newValue, oldValue) {
+    this.insert(newValue, oldValue);
+    this.delete(oldValue);
   }
 
   delete(value) {
@@ -148,6 +157,7 @@ class LinkedList {
       next = current.next;
     }
     prev.next = next;
+    this.count--;
   }
 
   printList() {
