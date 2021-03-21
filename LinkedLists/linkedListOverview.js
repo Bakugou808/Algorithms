@@ -121,6 +121,21 @@ class LinkedList {
     current.next = nuNode;
   }
 
+  //insert before a given value
+  insert(value, locationValue) {
+    let nuNode = new Node(value);
+    let current = this.head;
+    let prev;
+    // let next
+    while (current.value != locationValue) {
+      prev = current;
+      current = current.next;
+      // next = current.next
+    }
+    prev.next = nuNode;
+    nuNode.next = current;
+  }
+
   delete(value) {
     //use while loop to find node with next === null --> reassign
 
