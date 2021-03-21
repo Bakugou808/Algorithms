@@ -111,6 +111,30 @@ class LinkedList {
     }
   }
 
+  append(value) {
+    //use while loop to find node with next === null --> reassign
+    let nuNode = new Node(value);
+    let current = this.head;
+    while (current.next != null) {
+      current = current.next;
+    }
+    current.next = nuNode;
+  }
+
+  delete(value) {
+    //use while loop to find node with next === null --> reassign
+
+    let current = this.head;
+    let prev;
+    let next;
+    while (current.value != value) {
+      prev = current;
+      current = current.next;
+      next = current.next;
+    }
+    prev.next = next;
+  }
+
   printList() {
     let curr = this.head;
 
@@ -135,3 +159,20 @@ list.addFirst("Bernie");
 list.printList();
 
 // https://www.geeksforgeeks.org/top-20-linked-list-interview-question/
+
+// 5 --> 10 --> 15 --> null
+let linkedListStructure = {
+  //first node --> bucket of data
+  //--> bucket contains two things: value and next
+  //next will be a bucket containing the same elements
+  head: {
+    value: 5,
+    next: {
+      value: 10,
+      next: {
+        value: 15,
+        next: null,
+      },
+    },
+  },
+};
