@@ -92,6 +92,8 @@ write a function for singley ll to remove all duplicates of the linked list... m
 
 */
 
+//you can implement a linked list with a starting head value or a null head.
+
 class LinkedList {
   constructor(head = null, count = 0) {
     (this.head = head), (this.count = count);
@@ -100,7 +102,7 @@ class LinkedList {
   addFirst(val) {
     //check if head === null --> if true set head to node --> else set pointer for node to head --> set val for head to node...
     let nuNode = new Node(val);
-    this.count++;
+
     if (this.head) {
       //let nuNode = Node.new(node)
       nuNode.next = this.head;
@@ -109,6 +111,7 @@ class LinkedList {
     } else {
       this.head = nuNode;
     }
+    this.count++;
   }
 
   append(value) {
@@ -121,11 +124,13 @@ class LinkedList {
     // current.next = nuNode;
     //the above works... but we could just target the tail instead of looping to make it O(1) --> duhhh
     this.tail.next = nuNode;
+    //reset tail to nuNode so reference is accurate.
+    this.tail = nuNode;
     this.count++;
   }
 
   //insert before a given value
-  insert(value, locationValue) {
+  insertWithValues(value, locationValue) {
     let nuNode = new Node(value);
     let current = this.head;
     let prev;
@@ -138,6 +143,54 @@ class LinkedList {
     prev.next = nuNode;
     nuNode.next = current;
     this.count++;
+  }
+  //inserting with a given index
+  insertWithIndex(index, value) {
+    //insert before a given value
+    let nuNode = new Node(value);
+    let i = 0;
+    let current = this.head;
+    let prev;
+    // let next
+    if (index === 0) {
+      return this.prepend(value);
+    } else if (index >= this.count) {
+      return this.append(value);
+    }
+    while (i < index) {
+      prev = current;
+      current = current.next;
+      i++;
+      // next = current.next
+    }
+    prev.next = nuNode;
+    nuNode.next = current;
+  }
+  //with helper method traverseToIndexMinus1 ---> cleanest way since we can use the traverseToIndex method for delete and doubley lists
+  insertWithIndex2(index, value) {
+    //insert before a given value
+    let nuNode = new Node(value);
+
+    if (index === 0) {
+      return this.prepend(value);
+    } else if (index >= this.count) {
+      return this.append(value);
+    }
+    let nodeBeforeIndex = this.traverseToIndex(index - 1);
+    let nuNext = nodeBeforeIndex.next;
+    nodeBeforeIndex.next = nuNode;
+    nuNode.next = nuNext;
+  }
+
+  traverseToIndex(index) {
+    let counter = 0;
+    let leader = this.head;
+    //could also write (counter !== index)
+    while (counter < index) {
+      leader = leader.next;
+      counter++;
+    }
+    return leader;
   }
 
   replace(newValue, oldValue) {
