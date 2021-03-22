@@ -21,22 +21,22 @@ when dealing with linked list --> any node after the Head --> use a while loop t
  class SinglyLinkedList
   {
       public SLLNode Head { get; set; }
-      public int Count { get; set; }
+      public int length { get; set; }
 
       public SinglyLinkedList(int val)
       {
           Head.Val = val;
-          Count = 1;
+          length = 1;
       }
 
       public SinglyLinkedList()
       {
-          Count = 0;
+          length = 0;
       }    
       
       public void AddFirst(int val)
       {
-          Count++;
+          length++;
           var newNode = new SLLNode(val);
 
           if (Head == null)
@@ -95,8 +95,8 @@ write a function for singley ll to remove all duplicates of the linked list... m
 //you can implement a linked list with a starting head value or a null head.
 
 class LinkedList {
-  constructor(head = null, count = 0) {
-    (this.head = head), (this.count = count);
+  constructor(head = null, length = 0) {
+    (this.head = head), (this.length = length);
   }
 
   addFirst(val) {
@@ -104,29 +104,20 @@ class LinkedList {
     let nuNode = new Node(val);
 
     if (this.head) {
-      //let nuNode = Node.new(node)
       nuNode.next = this.head;
-      // same as  let nuNode = Node.new(node, this.head)
       this.head = nuNode;
     } else {
       this.head = nuNode;
     }
-    this.count++;
+    this.length++;
   }
 
   append(value) {
-    //use while loop to find node with next === null --> reassign
     let nuNode = new Node(value);
-    // let current = this.head;
-    // while (current.next != null) {
-    //   current = current.next;
-    // }
-    // current.next = nuNode;
-    //the above works... but we could just target the tail instead of looping to make it O(1) --> duhhh
     this.tail.next = nuNode;
     //reset tail to nuNode so reference is accurate.
     this.tail = nuNode;
-    this.count++;
+    this.length++;
   }
 
   //insert before a given value
@@ -134,19 +125,16 @@ class LinkedList {
     let nuNode = new Node(value);
     let current = this.head;
     let prev;
-    // let next
     while (current.value != locationValue) {
       prev = current;
       current = current.next;
-      // next = current.next
     }
     prev.next = nuNode;
     nuNode.next = current;
-    this.count++;
+    this.length++;
   }
   //inserting with a given index
   insertWithIndex(index, value) {
-    //insert before a given value
     let nuNode = new Node(value);
     let i = 0;
     let current = this.head;
@@ -154,7 +142,7 @@ class LinkedList {
     // let next
     if (index === 0) {
       return this.prepend(value);
-    } else if (index >= this.count) {
+    } else if (index >= this.length) {
       return this.append(value);
     }
     while (i < index) {
@@ -173,7 +161,7 @@ class LinkedList {
 
     if (index === 0) {
       return this.prepend(value);
-    } else if (index >= this.count) {
+    } else if (index >= this.length) {
       return this.append(value);
     }
     let nodeBeforeIndex = this.traverseToIndex(index - 1);
@@ -194,12 +182,13 @@ class LinkedList {
   }
 
   replace(newValue, oldValue) {
-    this.insert(newValue, oldValue);
+    this.insertWithValues(newValue, oldValue);
     this.delete(oldValue);
   }
 
   delete(value) {
     //use while loop to find node with next === null --> reassign
+    //this works but the remove method is cleaner
 
     let current = this.head;
     let prev;
@@ -210,7 +199,16 @@ class LinkedList {
       next = current.next;
     }
     prev.next = next;
-    this.count--;
+    this.length--;
+  }
+
+  remove(index) {
+    let nodeBeforeIndex = this.traverseToIndex(index - 1);
+    // let nodeAfterIndex = this.traverseToIndex(index + 1);
+    // nodeBeforeIndex.next = nodeAfterIndex; -------> this code would add a 2nd loop to O(2n)
+    let unwantedNode = nodeBeforeIndex.next;
+    nodeBeforeIndex.next = unwantedNode.next;
+    this.length--;
   }
 
   printList() {
@@ -237,6 +235,103 @@ list.addFirst("Bernie");
 list.printList();
 
 // https://www.geeksforgeeks.org/top-20-linked-list-interview-question/
+
+// DOUBLEY LINKED LIST CLASS DEFINITION
+
+class LinkedListDoubley {
+  constructor(value) {
+    this.head = {
+      value: value,
+      next: null,
+      prior: null,
+    };
+    this.tail = this.head;
+    this.length = 1;
+  }
+  append(value) {
+    const newNode = {
+      value: value,
+      next: null,
+      prior: null,
+    };
+    this.tail.next = newNode;
+    newNode.prior = this.tail;
+    this.tail = newNode;
+    this.length++;
+    return this;
+  }
+  prepend(value) {
+    const newNode = {
+      value: value,
+      next: null,
+      prior: null,
+    };
+    newNode.next = this.head;
+    this.head.prior = newNode;
+    this.head = newNode;
+    //OR
+    //this.head.next.prior = this.head ???
+    this.length++;
+    return this;
+  }
+  printList() {
+    const array = [];
+    let currentNode = this.head;
+    while (currentNode !== null) {
+      array.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return array;
+  }
+  insert(index, value) {
+    //Check for proper parameters;
+    if (index >= this.length) {
+      console.log("yes");
+      return this.append(value);
+    }
+
+    const newNode = {
+      value: value,
+      next: null,
+      prior: null,
+    };
+    const leader = this.traverseToIndex(index - 1);
+    const holdingPointer = leader.next;
+    leader.next = newNode;
+    newNode.prior = leader;
+    newNode.next = holdingPointer;
+    holdingPointer.prior = newNode;
+    this.length++;
+    return this.printList();
+  }
+  traverseToIndex(index) {
+    //Check parameters
+    let counter = 0;
+    let currentNode = this.head;
+    while (counter !== index) {
+      currentNode = currentNode.next;
+      counter++;
+    }
+    return currentNode;
+  }
+  remove(index) {
+    // Check Parameters
+    const leader = this.traverseToIndex(index - 1);
+    const unwantedNode = leader.next;
+    leader.next = unwantedNode.next;
+    unwantedNode.next.prior = leader;
+    this.length--;
+    return this.printList();
+  }
+}
+
+let myLinkedList = new LinkedList(10);
+myLinkedList.append(5);
+myLinkedList.append(16);
+myLinkedList.prepend(1);
+myLinkedList.insert(2, 99);
+myLinkedList.insert(20, 88);
+myLinkedList.remove(2);
 
 // 5 --> 10 --> 15 --> null
 let linkedListStructure = {
