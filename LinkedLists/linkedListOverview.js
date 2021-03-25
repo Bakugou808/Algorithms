@@ -185,6 +185,46 @@ class LinkedList {
     this.insertWithValues(newValue, oldValue);
     this.delete(oldValue);
   }
+  // THIS BAD WAY DON'T DO
+  // reverse(){
+  //   let values = []
+
+  //   for (let counter = this.length - 1; counter >= 0; counter --) {
+  //     let val = this.traverseToIndex(counter).value
+  //     values.push(val)
+  //     console.log('values arr', values)
+  //     // this.remove(counter)
+  //   }
+  //   let nuHead = new Node(values[0])
+  //   this.head = nuHead
+  //   this.tail = nuHead
+  //   for (let val of values.slice(1)){
+  //     this.append(val)
+  //   }
+  //   this.printAll()
+  // }
+
+  // THIS GOOD WAY --> TRICKY TO UNDERSTAND BUT GO LINE BY LINE AND IT'LL MAKE SENSE
+  reverse() {
+    //check to see if there is more than one node
+    if (!this.head.next) return this.head;
+
+    let first = this.head;
+    this.tail = this.head;
+    let second = first.next;
+
+    while (second) {
+      let temp = second.next;
+      second.next = first;
+      first = second;
+      second = temp;
+    }
+
+    this.head.next = null;
+    this.head = first;
+    console.log("in reverse");
+    this.printAll();
+  }
 
   delete(value) {
     //use while loop to find node with next === null --> reassign
