@@ -45,5 +45,5 @@ const flip = (arr, k) => {
 };
 
 let arr = [1, 5, 4, 3, 2];
-
+let arr2 = [1, 3, 2, 5, 4, 6];
 console.log(pancakeSort(arr));
